@@ -219,7 +219,7 @@ const Shelves = () => {
         </div>
       </div>
       <div className="open-search">
-        <Link path="/search" element={<Search />}>
+        <Link to="/Search" element={<Search />}>
           Add a book
         </Link>
       </div>

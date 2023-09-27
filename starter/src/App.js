@@ -1,16 +1,18 @@
 import "./App.css";
 import { useState } from "react";
-import { Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Shelves from "./Shelves";
 import Search from "./Search";
 
 function App() {
   return (
     <div className="app">
-      <Routes>
-        <Route path="/shelves" element={Shelves} />
-        <Route path="/search" element={Search} />
-      </Routes>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/*" element={<Shelves />} />
+          <Route path="/Search" element={<Search />} />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
