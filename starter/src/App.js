@@ -7,7 +7,6 @@ import Search from "./Search";
 
 function App() {
   const [books, setBooks] = useState([]);
-  const [shelves, setShelves] = useState([]);
 
   useEffect(() => {
     console.log(`App.js: useEffect`);
@@ -28,7 +27,9 @@ function App() {
   };
 
   const refresh = (shelves) => {
-    setShelves(shelves);
+    getAll()
+      .then((res) => setBooks(res))
+      .catch((e) => console.log(e));
   };
 
   return (
