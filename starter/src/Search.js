@@ -4,7 +4,7 @@ const Search = () => {
     <div className="search-books">
       <div className="search-books-bar">
         {
-          <Link to="/Shelves" className="close-search">
+          <Link to="/shelves" className="close-search">
             Close
           </Link>
         }

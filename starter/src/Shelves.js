@@ -2,14 +2,8 @@ import Book from "./Book";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import Search from "./Search";
-const Shelves = ({ books }) => {
-  const reading = books.filter((x) => x.shelf === "currentlyReading");
-  const want = books.filter((x) => x.shelf === "wantToRead");
-  const read = books.filter((x) => x.shelf === "read");
-  console.log(`reading ${reading}`);
-  console.log(`want ${want}`);
-  console.log(`read ${read}`);
 
+const Shelves = ({ reading, want, read, moveBookToShelf }) => {
   return (
     <div className="list-books">
       <div className="list-books-title">
@@ -23,8 +17,8 @@ const Shelves = ({ books }) => {
               <ol className="books-grid">
                 {reading.map((book) => {
                   return (
-                    <li>
-                      <Book bookData={book} />
+                    <li key={book.title}>
+                      <Book bookData={book} moveBookToShelf={moveBookToShelf} />
                     </li>
                   );
                 })}
@@ -37,8 +31,8 @@ const Shelves = ({ books }) => {
               <ol className="books-grid">
                 {want.map((book) => {
                   return (
-                    <li>
-                      <Book bookData={book} />
+                    <li key={book.title}>
+                      <Book bookData={book} moveBookToShelf={moveBookToShelf} />
                     </li>
                   );
                 })}
@@ -51,8 +45,8 @@ const Shelves = ({ books }) => {
               <ol className="books-grid">
                 {read.map((book) => {
                   return (
-                    <li>
-                      <Book bookData={book} />
+                    <li key={book.title}>
+                      <Book bookData={book} moveBookToShelf={moveBookToShelf} />
                     </li>
                   );
                 })}
@@ -62,7 +56,7 @@ const Shelves = ({ books }) => {
         </div>
       </div>
       <div className="open-search">
-        <Link to="/Search" element={<Search />}>
+        <Link to="/search" element={<Search />}>
           Add a book
         </Link>
       </div>

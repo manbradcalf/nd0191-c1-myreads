@@ -1,4 +1,8 @@
-const Book = ({ bookData }) => {
+const Book = ({ bookData, moveBookToShelf }) => {
+  const onMoveToShelf = (event) => {
+    moveBookToShelf(bookData, event.target.value);
+  };
+
   return (
     <div className="book">
       <div className="book-top">
@@ -11,7 +15,7 @@ const Book = ({ bookData }) => {
           }}
         ></div>
         <div className="book-shelf-changer">
-          <select>
+          <select onChange={onMoveToShelf} defaultValue={bookData.shelf}>
             <option value="none" disabled>
               Move to...
             </option>
