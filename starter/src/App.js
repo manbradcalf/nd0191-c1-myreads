@@ -47,7 +47,10 @@ function App() {
               />
             }
           />
-          <Route path="/search" element={<Search />} />
+          <Route
+            path="/search"
+            element={<Search moveBookToShelf={onBookMoved} />}
+          />
         </Routes>
       </BrowserRouter>
     </div>

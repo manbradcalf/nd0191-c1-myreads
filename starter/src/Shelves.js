@@ -56,7 +56,7 @@ const Shelves = ({ reading, want, read, moveBookToShelf }) => {
         </div>
       </div>
       <div className="open-search">
-        <Link to="/search" element={<Search />}>
+        <Link to="/search" element={<Search moveBookToShelf={moveBookToShelf} />}>
           Add a book
         </Link>
       </div>
