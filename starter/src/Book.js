@@ -3,6 +3,13 @@ const Book = ({ bookData, moveBookToShelf }) => {
     moveBookToShelf(bookData, event.target.value);
   };
 
+  let img;
+  if (bookData.imageLinks) {
+    img = bookData.imageLinks.smallThumbnail;
+  } else {
+    img = "";
+  }
+
   return (
     <div className="book">
       <div className="book-top">
@@ -11,7 +18,7 @@ const Book = ({ bookData, moveBookToShelf }) => {
           style={{
             width: 128,
             height: 193,
-            backgroundImage: `url("${bookData.imageLinks.smallThumbnail}")`,
+            backgroundImage: `url("${img}")`,
           }}
         ></div>
         <div className="book-shelf-changer">

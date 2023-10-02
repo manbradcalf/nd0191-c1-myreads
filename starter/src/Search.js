@@ -8,12 +8,12 @@ const Search = ({ moveBookToShelf }) => {
 
   const handleTextChange = async (event) => {
     if (event.target.value) {
-      let res = await search(event.target.value, 1);
+      let res = await search(event.target.value);
 
-      if (!res.error) {
-        setResults(res);
+      if (res.error === "empty query") {
+        setResults([]);
       } else {
-        console.log(`an error occurred when searching for books: ${res.error}`);
+        setResults(res);
       }
     }
   };
@@ -37,8 +37,13 @@ const Search = ({ moveBookToShelf }) => {
       <div className="search-books-results">
         <ol className="books-grid">
           {results.map((book) => {
+            // todo: hack fix for a particular book that has no imageLinks
+            if (!book.imageLinks) {
+              book.imageLinks = { smallThumbnail: "" };
+            }
+
             return (
-              <li key={book.title}>
+              <li key={book.id}>
                 <Book bookData={book} moveBookToShelf={moveBookToShelf} />
               </li>
             );
