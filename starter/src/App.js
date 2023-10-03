@@ -6,30 +6,36 @@ import Shelves from "./Shelves";
 import Search from "./Search";
 
 function App() {
-  const [books, setBooks] = useState([]);
+  const [wantToRead, setWantToRead] = useState([]);
+  const [reading, setReading] = useState([]);
+  const [read, setRead] = useState([]);
 
-  useEffect(() => {
-    console.log(`App.js: useEffect`);
-
-    // get initial books
-    getAll()
-      .then((res) => {
-        setBooks(res);
-      })
-      .catch((e) => console.log(`an error occurred fetching books: ${e}`));
+  useEffect(async () => {
+    getBooks();
   }, []);
 
-  const onBookMoved = (book, newShelf) => {
-    update(book, newShelf).then((shelvesRes) => {
-      console.log(JSON.stringify(shelvesRes, undefined, 4));
-      refresh(shelvesRes);
-    });
+  const getBooks = async () => {
+    let books = await getAll();
+    mapBooksToShelves(books);
   };
 
-  const refresh = (shelves) => {
-    getAll()
-      .then((res) => setBooks(res))
-      .catch((e) => console.log(e));
+  const mapBooksToShelves = (res) => {
+    var currentlyReading = res
+      .filter((x) => x.shelf === "currentlyReading")
+      .map((x) => x.id);
+    var wantToRead = res
+      .filter((x) => x.shelf === "wantToRead")
+      .map((x) => x.id);
+    var read = res.filter((x) => x.shelf === "read").map((x) => x.id);
+
+    setRead(read);
+    setWantToRead(wantToRead);
+    setReading(currentlyReading);
+  };
+
+  const onBookMoved = async (bookId, newShelf) => {
+    let shelvesRes = await update(bookId, newShelf);
+    getBooks();
   };
 
   return (
@@ -40,9 +46,9 @@ function App() {
             path="/*"
             element={
               <Shelves
-                reading={books.filter((x) => x.shelf === "currentlyReading")}
-                want={books.filter((x) => x.shelf === "wantToRead")}
-                read={books.filter((x) => x.shelf === "read")}
+                reading={reading}
+                want={wantToRead}
+                read={read}
                 moveBookToShelf={onBookMoved}
               />
             }
@@ -57,18 +63,4 @@ function App() {
   );
 }
 
-const logBooks = (books) => {
-  console.log(
-    `books is ${JSON.stringify(
-      books.map((x) => {
-        return {
-          title: x.title,
-          shelf: x.shelf,
-        };
-      }),
-      undefined,
-      4
-    )}`
-  );
-};
 export default App;

@@ -7,14 +7,16 @@ const Search = ({ moveBookToShelf }) => {
   const [results, setResults] = useState([]);
 
   const handleTextChange = async (event) => {
+    console.log(event.target.value);
     if (event.target.value) {
       let res = await search(event.target.value);
-
-      if (res.error === "empty query") {
+      if (res.error) {
         setResults([]);
       } else {
         setResults(res);
       }
+    } else {
+      setResults([]);
     }
   };
 
@@ -37,14 +39,14 @@ const Search = ({ moveBookToShelf }) => {
       <div className="search-books-results">
         <ol className="books-grid">
           {results.map((book) => {
-            // todo: hack fix for a particular book that has no imageLinks
-            if (!book.imageLinks) {
-              book.imageLinks = { smallThumbnail: "" };
-            }
 
             return (
               <li key={book.id}>
-                <Book bookData={book} moveBookToShelf={moveBookToShelf} />
+                <Book
+                  bookId={book.id}
+                  currentShelf={book.shelf}
+                  moveBookToShelf={moveBookToShelf}
+                />
               </li>
             );
           })}
