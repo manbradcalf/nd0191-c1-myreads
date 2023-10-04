@@ -12,13 +12,14 @@ function App() {
 
   // called on initial startup
   useEffect(async () => {
+    console.log("useEffect: getting all books");
     let books = await getAll();
     setRead(books.filter((x) => x.shelf === "read"));
     setWantToRead(books.filter((x) => x.shelf === "wantToRead"));
     setReading(books.filter((x) => x.shelf === "currentlyReading"));
   }, []);
 
-  const onBookMoved = (book, oldShelf, newShelf) => {
+  const onBookMoved = async (book, oldShelf, newShelf) => {
     update(book, newShelf);
     updateUI(book, oldShelf, newShelf);
   };

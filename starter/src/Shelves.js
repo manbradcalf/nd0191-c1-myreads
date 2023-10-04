@@ -9,27 +9,22 @@ const Shelves = ({ reading, want, read, moveBookToShelf }) => {
     <div className="list-books">
       <div className="list-books-title">
         <h1>MyReads</h1>
-      </div>
-      <div className="list-books-content">
-        <div>
-          <div className="bookshelf">
-            <h2 className="bookshelf-title">Currently Reading</h2>
-            <Shelf books={reading} moveBookToShelf={moveBookToShelf} />
-          </div>
         </div>
-        <div>
-          <div className="bookshelf">
-            <h2 className="bookshelf-title">Want To Read</h2>
-            <Shelf books={want} moveBookToShelf={moveBookToShelf} />
-          </div>
-        </div>
-        <div className="bookshelf">
-          <h2 className="bookshelf-title">Read</h2>
-          <div>
-            <Shelf books={read} moveBookToShelf={moveBookToShelf} />
-          </div>
-        </div>
-      </div>
+        <Shelf
+          books={reading}
+          shelfName={"Currently Reading"}
+          moveBookToShelf={moveBookToShelf}
+        />
+        <Shelf
+          books={want}
+          shelfName={"Want To Read"}
+          moveBookToShelf={moveBookToShelf}
+        />
+        <Shelf
+          books={read}
+          shelfName={"Read"}
+          moveBookToShelf={moveBookToShelf}
+        />
       <div className="open-search">
         <Link
           to="/search"
