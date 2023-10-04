@@ -11,6 +11,10 @@ function App() {
   const [read, setRead] = useState([]);
 
   useEffect(async () => {
+    // TODO: consider just fetching each book by id and store the ids as state
+    // that way we dont get all books every time
+    // and we can build the shelves from the ids we know were explicitly added
+    // by the user in the app via Book.js callback
     getBooks();
   }, []);
 
@@ -20,21 +24,14 @@ function App() {
   };
 
   const mapBooksToShelves = (res) => {
-    var currentlyReading = res
-      .filter((x) => x.shelf === "currentlyReading")
-      .map((x) => x.id);
-    var wantToRead = res
-      .filter((x) => x.shelf === "wantToRead")
-      .map((x) => x.id);
-    var read = res.filter((x) => x.shelf === "read").map((x) => x.id);
-
-    setRead(read);
-    setWantToRead(wantToRead);
-    setReading(currentlyReading);
+    setRead(res.filter((x) => x.shelf === "read"));
+    setWantToRead(res.filter((x) => x.shelf === "wantToRead"));
+    setReading(res.filter((x) => x.shelf === "currentlyReading"));
   };
 
   const onBookMoved = async (bookId, newShelf) => {
     let shelvesRes = await update(bookId, newShelf);
+    // todo: seems inefficient to getAllBooks here on each reload.
     getBooks();
   };
 
@@ -55,7 +52,14 @@ function App() {
           />
           <Route
             path="/search"
-            element={<Search moveBookToShelf={onBookMoved} />}
+            element={
+              <Search
+                reading={reading}
+                want={wantToRead}
+                read={read}
+                moveBookToShelf={onBookMoved}
+              />
+            }
           />
         </Routes>
       </BrowserRouter>

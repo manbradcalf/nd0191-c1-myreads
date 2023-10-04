@@ -1,36 +1,13 @@
 import { useEffect, useState } from "react";
 import { get } from "./BooksAPI";
 
-const Book = ({ bookId, moveBookToShelf }) => {
-  console.log("new book! " + bookId);
-  const [book, setBook] = useState({
-    imageLinks: { smallThumbail: "" },
-    shelf: "none",
-  });
-
-  // TODO: Add a cleanup function
-  useEffect(async () => {
-    console.log("loading data for " + bookId);
-    await load(bookId);
-  }, []);
-
-  const load = async (bookId) => {
-    let res = await get(bookId);
-    await onBookLoaded(res);
-  };
-
-  const onBookLoaded = async (book) => {
-    setBook(book);
-    console.log(
-      `Book.js: ${book.title} ${book.id} is on shelf ${book.shelf} according to the service`
-    );
-  };
+const Book = ({ book, moveBookToShelf }) => {
+  // console.log(`Book.js: book.shelf for ${book.title} is ${book.shelf}`);
+  const [shelf, setShelf] = useState(book.shelf);
 
   const onMoveToShelf = (event) => {
-    moveBookToShelf(bookId, event.target.value);
-    let bookRef = book;
-    bookRef.shelf= event.target.value;
-    setBook(bookRef);
+    moveBookToShelf(book.id, event.target.value);
+    setShelf(event.target.value);
   };
 
   return (
@@ -41,11 +18,11 @@ const Book = ({ bookId, moveBookToShelf }) => {
           style={{
             width: 128,
             height: 193,
-            backgroundImage: `url(${book.imageLinks.smallThumbnail}})`,
+            backgroundImage: `url(${book.imageLinks?.smallThumbnail ?? ""}})`,
           }}
         ></div>
         <div className="book-shelf-changer">
-          <select onChange={onMoveToShelf} defaultValue={book.shelf}>
+          <select onChange={onMoveToShelf} defaultValue={shelf}>
             <option value="none" disabled>
               Move to...
             </option>

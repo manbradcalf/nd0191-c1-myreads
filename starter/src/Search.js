@@ -3,20 +3,19 @@ import { search } from "./BooksAPI";
 import { useState } from "react";
 import Book from "./Book";
 
-const Search = ({ moveBookToShelf }) => {
+const Search = ({ reading, want, read, moveBookToShelf }) => {
   const [results, setResults] = useState([]);
 
   const handleTextChange = async (event) => {
-    console.log(event.target.value);
-    if (event.target.value) {
+    if (!event.target.value) {
+      setResults([]);
+    } else {
       let res = await search(event.target.value);
       if (res.error) {
         setResults([]);
       } else {
         setResults(res);
       }
-    } else {
-      setResults([]);
     }
   };
 
@@ -39,14 +38,25 @@ const Search = ({ moveBookToShelf }) => {
       <div className="search-books-results">
         <ol className="books-grid">
           {results.map((book) => {
-
+            // Search results dont return shelves on the book object 
+            // so we set it ourselves via the shelf props passed by app.js
+            book.shelf = "none"
+      
+            if (reading.find((x)=> book.id === x.id )) {
+              book.shelf = "currentlyReading";
+            }
+      
+            if (read.find((x) => book.id === x.id)) {
+              book.shelf = "read";
+            }
+      
+            if (want.find((x) => book.id === x.id)) {
+              book.shelf = "wantToRead";
+            }
+      
             return (
               <li key={book.id}>
-                <Book
-                  bookId={book.id}
-                  currentShelf={book.shelf}
-                  moveBookToShelf={moveBookToShelf}
-                />
+                <Book book={book} moveBookToShelf={moveBookToShelf} />
               </li>
             );
           })}

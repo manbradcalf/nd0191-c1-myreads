@@ -14,19 +14,19 @@ const Shelves = ({ reading, want, read, moveBookToShelf }) => {
         <div>
           <div className="bookshelf">
             <h2 className="bookshelf-title">Currently Reading</h2>
-            <Shelf bookIds={reading} moveBookToShelf={moveBookToShelf} />
+            <Shelf books={reading} moveBookToShelf={moveBookToShelf} />
           </div>
         </div>
         <div>
           <div className="bookshelf">
             <h2 className="bookshelf-title">Want To Read</h2>
-            <Shelf bookIds={want} moveBookToShelf={moveBookToShelf} />
+            <Shelf books={want} moveBookToShelf={moveBookToShelf} />
           </div>
         </div>
         <div className="bookshelf">
           <h2 className="bookshelf-title">Read</h2>
           <div>
-            <Shelf bookIds={read} moveBookToShelf={moveBookToShelf} />
+            <Shelf books={read} moveBookToShelf={moveBookToShelf} />
           </div>
         </div>
       </div>

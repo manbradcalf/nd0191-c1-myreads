@@ -1,13 +1,13 @@
 import Book from "./Book";
 
-const Shelf = ({ bookIds, moveBookToShelf }) => {
+const Shelf = ({ books, moveBookToShelf }) => {
   return (
     <div className="bookshelf-books">
       <ol className="books-grid">
-        {bookIds.map((bookId) => {
+        {books?.map((book) => {
           return (
-            <li key={bookId}>
-              <Book bookId={bookId} moveBookToShelf={moveBookToShelf} />
+            <li key={book.id}>
+              <Book book={book} moveBookToShelf={moveBookToShelf} />
             </li>
           );
         })}
