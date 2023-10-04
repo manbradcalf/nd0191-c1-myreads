@@ -12,16 +12,28 @@ function App() {
 
   // called on initial startup
   useEffect(async () => {
-    console.log("useEffect: getting all books");
-    let books = await getAll();
-    setRead(books.filter((x) => x.shelf === "read"));
-    setWantToRead(books.filter((x) => x.shelf === "wantToRead"));
-    setReading(books.filter((x) => x.shelf === "currentlyReading"));
+    let mounted = true;
+
+    if (mounted) {
+      let books = await getAll();
+      setRead(books.filter((x) => x.shelf === "read"));
+      setWantToRead(books.filter((x) => x.shelf === "wantToRead"));
+      setReading(books.filter((x) => x.shelf === "currentlyReading"));
+    }
+
+    // cleanup function that gets called when component unmounts
+    return () => {
+      mounted = false;
+    };
   }, []);
 
   const onBookMoved = async (book, oldShelf, newShelf) => {
-    update(book, newShelf);
-    updateUI(book, oldShelf, newShelf);
+    let updateRes = await update(book, newShelf);
+    if ((updateRes[oldShelf] && updateRes[newShelf]) || oldShelf === "none") {
+      updateUI(book, oldShelf, newShelf);
+    } else {
+      alert("update failed. try again.");
+    }
   };
 
   const updateUI = (book, oldShelf, newShelf) => {

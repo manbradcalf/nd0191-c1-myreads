@@ -23,7 +23,7 @@ const Search = ({ reading, want, read, moveBookToShelf }) => {
     <div className="search-books">
       <div className="search-books-bar">
         {
-          <Link to="/shelves" className="close-search">
+          <Link to="/" className="close-search">
             Close
           </Link>
         }
