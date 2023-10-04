@@ -2,12 +2,12 @@ import { useEffect, useState } from "react";
 import { get } from "./BooksAPI";
 
 const Book = ({ book, moveBookToShelf }) => {
-  // console.log(`Book.js: book.shelf for ${book.title} is ${book.shelf}`);
+  console.log(`Book.js: book.shelf for ${book.title} is ${book.shelf}`);
   const [shelf, setShelf] = useState(book.shelf);
 
   const onMoveToShelf = (event) => {
-    moveBookToShelf(book.id, book.shelf, event.target.value);
     setShelf(event.target.value);
+    moveBookToShelf(book, book.shelf, event.target.value);
   };
 
   return (

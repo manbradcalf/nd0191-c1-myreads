@@ -19,46 +19,40 @@ function App() {
     setReading(books.filter((x) => x.shelf === "currentlyReading"));
   }, []);
 
-  const onBookMoved = async (book, oldShelf, newShelf) => {
-    // switch (oldShelf) {
-    //   case "currentlyReading":
-    //     setReading(reading.filter((x) => x.id !== book.id));
-    //   case "wantToRead":
-    //     setWantToRead(wantToRead.filter((x) => x.id !== book.id));
-    //   case "read":
-    //     setRead(read.filter((x) => x.id !== book.id));
-    // }
-    await refresh(await update(book, newShelf));
+  const onBookMoved = (book, oldShelf, newShelf) => {
+    update(book, newShelf);
+    updateUI(book, oldShelf, newShelf);
   };
 
-  const refresh = async (shelves) => {
-    console.log(shelves);
-    setReading([]);
-    setWantToRead([]);
-    setRead([]);
-
-    let readingBooks = [];
-    for (let id of shelves["currentlyReading"]) {
-      let res = await get(id);
-      readingBooks.push(res);
+  const updateUI = (book, oldShelf, newShelf) => {
+    switch (oldShelf) {
+      case "currentlyReading":
+        let newReading = reading.filter((x) => x.id != book.id);
+        setReading(newReading);
+        break;
+      case "wantToRead":
+        let newWantToRead = wantToRead.filter((x) => x.id != book.id);
+        setWantToRead(newWantToRead);
+        break;
+      case "read":
+        let newRead = read.filter((x) => x.id != book.id);
+        setRead(newRead);
+        break;
     }
-    setReading(readingBooks);
 
-    let wantToReadBooks = [];
-    for (let id of shelves["wantToRead"]) {
-      let res = await get(id);
-      wantToReadBooks.push(res);
+    book.shelf = newShelf;
+    switch (newShelf) {
+      case "currentlyReading":
+        setReading([...reading, book]);
+        break;
+      case "wantToRead":
+        setWantToRead([...wantToRead, book]);
+        break;
+      case "read":
+        setRead([...read, book]);
+        break;
     }
-    setWantToRead(wantToReadBooks);
-
-    let readBooks = [];
-    for (let id of shelves["read"]) {
-      let res = await get(id);
-      readBooks.push(res);
-    }
-    setRead(readBooks);
   };
-
   return (
     <div className="app">
       <BrowserRouter>

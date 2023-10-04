@@ -5,6 +5,7 @@ import Search from "./Search";
 import Shelf from "./Shelf";
 
 const Shelves = ({ reading, want, read, moveBookToShelf }) => {
+  console.log("Shelves.js");
   return (
     <div className="list-books">
       <div className="list-books-title">
