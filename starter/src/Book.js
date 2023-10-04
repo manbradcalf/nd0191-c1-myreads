@@ -6,7 +6,7 @@ const Book = ({ book, moveBookToShelf }) => {
   const [shelf, setShelf] = useState(book.shelf);
 
   const onMoveToShelf = (event) => {
-    moveBookToShelf(book.id, event.target.value);
+    moveBookToShelf(book.id, book.shelf, event.target.value);
     setShelf(event.target.value);
   };
 

@@ -1,7 +1,7 @@
 import "./App.css";
 import { useState, useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { getAll, update } from "./BooksAPI";
+import { getAll, update, get } from "./BooksAPI";
 import Shelves from "./Shelves";
 import Search from "./Search";
 
@@ -10,29 +10,53 @@ function App() {
   const [reading, setReading] = useState([]);
   const [read, setRead] = useState([]);
 
+  // called on initial startup
   useEffect(async () => {
-    // TODO: consider just fetching each book by id and store the ids as state
-    // that way we dont get all books every time
-    // and we can build the shelves from the ids we know were explicitly added
-    // by the user in the app via Book.js callback
-    getBooks();
+    console.log("useEffect: getting all books");
+    let books = await getAll();
+    setRead(books.filter((x) => x.shelf === "read"));
+    setWantToRead(books.filter((x) => x.shelf === "wantToRead"));
+    setReading(books.filter((x) => x.shelf === "currentlyReading"));
   }, []);
 
-  const getBooks = async () => {
-    let books = await getAll();
-    mapBooksToShelves(books);
+  const onBookMoved = async (book, oldShelf, newShelf) => {
+    // switch (oldShelf) {
+    //   case "currentlyReading":
+    //     setReading(reading.filter((x) => x.id !== book.id));
+    //   case "wantToRead":
+    //     setWantToRead(wantToRead.filter((x) => x.id !== book.id));
+    //   case "read":
+    //     setRead(read.filter((x) => x.id !== book.id));
+    // }
+    await refresh(await update(book, newShelf));
   };
 
-  const mapBooksToShelves = (res) => {
-    setRead(res.filter((x) => x.shelf === "read"));
-    setWantToRead(res.filter((x) => x.shelf === "wantToRead"));
-    setReading(res.filter((x) => x.shelf === "currentlyReading"));
-  };
+  const refresh = async (shelves) => {
+    console.log(shelves);
+    setReading([]);
+    setWantToRead([]);
+    setRead([]);
 
-  const onBookMoved = async (bookId, newShelf) => {
-    let shelvesRes = await update(bookId, newShelf);
-    // todo: seems inefficient to getAllBooks here on each reload.
-    getBooks();
+    let readingBooks = [];
+    for (let id of shelves["currentlyReading"]) {
+      let res = await get(id);
+      readingBooks.push(res);
+    }
+    setReading(readingBooks);
+
+    let wantToReadBooks = [];
+    for (let id of shelves["wantToRead"]) {
+      let res = await get(id);
+      wantToReadBooks.push(res);
+    }
+    setWantToRead(wantToReadBooks);
+
+    let readBooks = [];
+    for (let id of shelves["read"]) {
+      let res = await get(id);
+      readBooks.push(res);
+    }
+    setRead(readBooks);
   };
 
   return (
