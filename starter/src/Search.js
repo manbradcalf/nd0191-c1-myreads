@@ -40,6 +40,7 @@ const Search = ({ reading, want, read, moveBookToShelf }) => {
           {results.map((book) => {
             // Search results dont return shelves on the book object
             // so we set it ourselves via the shelf props passed by app.js
+            // ( I dont love this solution )
             book.shelf = "none";
 
             if (reading.find((x) => book.id === x.id)) {

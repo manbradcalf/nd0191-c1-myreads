@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { get } from "./BooksAPI";
 
 const Book = ({ book, moveBookToShelf }) => {
-  console.log(`Book.js: book.shelf for ${book.title} is ${book.shelf}`);
   const [shelf, setShelf] = useState(book.shelf);
 
   const onMoveToShelf = (event) => {
@@ -34,7 +33,7 @@ const Book = ({ book, moveBookToShelf }) => {
         </div>
       </div>
       <div className="book-title">{book.title}</div>
-      <div className="book-authors">{book.author}</div>
+      <div className="book-authors">{book.authors?.toString()}</div>
     </div>
   );
 };
