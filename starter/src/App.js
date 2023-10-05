@@ -29,7 +29,11 @@ function App() {
 
   const onBookMoved = async (book, oldShelf, newShelf) => {
     let updateRes = await update(book, newShelf);
-    if ((updateRes[oldShelf] && updateRes[newShelf]) || oldShelf === "none") {
+    if (
+      (updateRes[oldShelf] && updateRes[newShelf]) ||
+      oldShelf === "none" ||
+      newShelf === "none"
+    ) {
       updateUI(book, oldShelf, newShelf);
     } else {
       alert("update failed. try again.");
