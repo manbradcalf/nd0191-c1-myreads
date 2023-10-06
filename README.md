@@ -1,40 +1,19 @@
 # MyReads Project
 
-This is the starter template for the final assessment project for Udacity's React Fundamentals course. The goal of this template is to save you time by providing a static example of the CSS and HTML markup that may be used, but without any of the React code that is needed to complete the project. If you choose to start with this template, your job will be to add interactivity to the app by refactoring the static code in this template.
-
-Of course, you are free to start this project from scratch if you wish! Just be sure to use [Create React App](https://reactjs.org/docs/create-a-new-react-app.html) to bootstrap the project.
+MyReads is a React application used to search for and organize a collection of books. It uses a server hosted by Udacity to save shelf changes that persist as long as you use the same token generated and save in local storage.
 
 ## TL;DR
 
-To get started developing right away:
+To run the app:
 
 - install all project dependencies with `npm install`
 - start the development server with `npm start`
 
-## What You're Getting
+To reset the app:
 
-```bash
-├── CONTRIBUTING.md
-├── README.md - This file.
-├── SEARCH_TERMS.md # The whitelisted short collection of available search terms for you to use with your app.
-├── package.json # npm package manager file. It's unlikely that you'll need to modify this.
-├── public
-│   ├── favicon.ico # React Icon, You may change if you wish.
-│   └── index.html # DO NOT MODIFY
-└── src
-    ├── App.css # Styles for your app. Feel free to customize this as you desire.
-    ├── App.js # This is the root of your app. Contains static HTML right now.
-    ├── App.test.js # Used for testing. Provided with Create React App. Testing is encouraged, but not required.
-    ├── BooksAPI.js # A JavaScript API for the provided Udacity backend. Instructions for the methods are below.
-    ├── icons # Helpful images for your app. Use at your discretion.
-    │   ├── add.svg
-    │   ├── arrow-back.svg
-    │   └── arrow-drop-down.svg
-    ├── index.css # Global styles. You probably won't need to change anything here.
-    └── index.js # You should not need to modify this file. It is used for DOM rendering only.
-```
+- clear the `token` in local storage. You can find this in Chrome Dev Tools by navigating to
 
-Remember that good React design practice is to create new JS files for each component and use import/require statements to include them where they are needed.
+  Application > Storage > Local Storage > http:localhost:3000
 
 ## Backend Server
 
@@ -43,6 +22,14 @@ To simplify your development process, we've provided a backend server for you to
 - [`getAll`](#getall)
 - [`update`](#update)
 - [`search`](#search)
+
+## Components
+
+- [`App`](#appjs)
+- [`Shelves`](#shelvesjs)
+- [`Search`](#searchjs)
+- [`Shelf`](#shelfjs)
+- [`Book`](#bookjs)
 
 ### `getAll`
 
@@ -78,6 +65,28 @@ search(query);
 - query: `<String>`
 - Returns a Promise which resolves to a JSON object containing a collection of a maximum of 20 book objects.
 - These books do not know which shelf they are on. They are raw results only. You'll need to make sure that books have the correct state while on the search page.
+
+## Components
+
+### `App.js`
+
+This component is the root component of the application is is responsible for the state of the shelves. When the state is updated by callbacks, it updates the server and passes the updated state to the `Search` and `Shelves` components as props
+
+### `Search.js`
+
+This component takes in the 3 different bookshelves as props and handles the state of the `searchResults`. When `searchResults` are updated, it maps the `book.shelf` property according to the shelves provided as props by the caller (App.js in this case)
+
+### `Shelves.js`
+
+This component takes in the 3 different bookshelves as props and uses them to populate a list of `<Shelf/>` components. It also contains a button used to navigate to the `<Search/>` componenet
+
+### `Shelf.js`
+
+This component takes in a list of Books who share a common `shelf`. The displayable name of that shelf is passed in via the `shelfName` prop. The `books` passed in should all share the same `book.shelf` property, mapped upstream by the caller (App.js in this case). It then populates a list of Book componenets using the `books` prop.
+
+### Book.js
+
+This component takes in all of the book data, including title, author, and shelf, and renders a Book that can be displayed in either Search results or the home page. It tracks the `shelf` state, and when that state is updated, calls back the `onBookMoved` function so the App component can update the shelves accordingly.
 
 ## Important
 
