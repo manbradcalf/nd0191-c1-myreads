@@ -36,6 +36,13 @@ const Search = ({ reading, want, read, moveBookToShelf }) => {
         </div>
       </div>
       <div className="search-books-results">
+        {results.length == 0 && (
+          <div className="empty-results-header">
+            <h2>
+              No results for the chosen query, please try a different search.
+            </h2>
+          </div>
+        )}
         <ol className="books-grid">
           {results.map((book) => {
             // Search results dont return shelves on the book object
