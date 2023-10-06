@@ -1,7 +1,7 @@
-import { Link } from "react-router-dom";
-import { search } from "./BooksAPI";
-import { useState } from "react";
-import Book from "./Book";
+import { Link } from 'react-router-dom';
+import { search } from './BooksAPI';
+import { useState } from 'react';
+import Book from './Book';
 
 const Search = ({ reading, want, read, moveBookToShelf }) => {
   const [results, setResults] = useState([]);
@@ -20,46 +20,45 @@ const Search = ({ reading, want, read, moveBookToShelf }) => {
   };
 
   return (
-    <div className="search-books">
-      <div className="search-books-bar">
+    <div className='search-books'>
+      <div className='search-books-bar'>
         {
-          <Link to="/" className="close-search">
+          <Link to='/' className='close-search'>
             Close
           </Link>
         }
-        <div className="search-books-input-wrapper">
+        <div className='search-books-input-wrapper'>
           <input
-            type="text"
-            placeholder="Search by title, author, or ISBN"
+            type='text'
+            placeholder='Search by title, author, or ISBN'
             onChange={handleTextChange}
           />
         </div>
       </div>
-      <div className="search-books-results">
+      <div className='search-books-results'>
         {results.length == 0 && (
-          <div className="empty-results-header">
+          <div className='empty-results-header'>
             <h2>
               No results for the chosen query, please try a different search.
             </h2>
           </div>
         )}
-        <ol className="books-grid">
+        <ol className='books-grid'>
           {results.map((book) => {
-            // Search results dont return shelves on the book object
-            // so we set it ourselves via the shelf props passed by app.js
-            // ( I dont love this solution )
-            book.shelf = "none";
+            // The books returned in search results don't have a shelf property.
+            // Set it ourselves via the shelf props passed by app.js
+            book.shelf = 'none';
 
             if (reading.find((x) => book.id === x.id)) {
-              book.shelf = "currentlyReading";
+              book.shelf = 'currentlyReading';
             }
 
             if (read.find((x) => book.id === x.id)) {
-              book.shelf = "read";
+              book.shelf = 'read';
             }
 
             if (want.find((x) => book.id === x.id)) {
-              book.shelf = "wantToRead";
+              book.shelf = 'wantToRead';
             }
 
             return (
