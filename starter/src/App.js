@@ -1,9 +1,9 @@
-import './App.css';
-import { useState, useEffect } from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { getAll, update, get } from './BooksAPI';
-import Shelves from './Shelves';
-import Search from './Search';
+import "./App.css";
+import { useState, useEffect } from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { getAll, update, get } from "./BooksAPI";
+import Shelves from "./Shelves";
+import Search from "./Search";
 
 function App() {
   const [wantToRead, setWantToRead] = useState([]);
@@ -12,45 +12,36 @@ function App() {
 
   // called on initial startup
   useEffect(async () => {
-    let mounted = true;
-
-    if (mounted) {
-      let books = await getAll();
-      setRead(books.filter((x) => x.shelf === 'read'));
-      setWantToRead(books.filter((x) => x.shelf === 'wantToRead'));
-      setReading(books.filter((x) => x.shelf === 'currentlyReading'));
-    }
-
-    // cleanup function that gets called when component unmounts
-    return () => {
-      mounted = false;
-    };
+    let books = await getAll();
+    setRead(books.filter((x) => x.shelf === "read"));
+    setWantToRead(books.filter((x) => x.shelf === "wantToRead"));
+    setReading(books.filter((x) => x.shelf === "currentlyReading"));
   }, []);
 
   const onBookMoved = async (book, oldShelf, newShelf) => {
     let updateRes = await update(book, newShelf);
     if (
       (updateRes[oldShelf] && updateRes[newShelf]) ||
-      oldShelf === 'none' ||
-      newShelf === 'none'
+      oldShelf === "none" ||
+      newShelf === "none"
     ) {
       updateUI(book, oldShelf, newShelf);
     } else {
-      alert('update failed. try again.');
+      alert("update failed. try again.");
     }
   };
 
   const updateUI = (book, oldShelf, newShelf) => {
     switch (oldShelf) {
-      case 'currentlyReading':
+      case "currentlyReading":
         let newReading = reading.filter((x) => x.id != book.id);
         setReading(newReading);
         break;
-      case 'wantToRead':
+      case "wantToRead":
         let newWantToRead = wantToRead.filter((x) => x.id != book.id);
         setWantToRead(newWantToRead);
         break;
-      case 'read':
+      case "read":
         let newRead = read.filter((x) => x.id != book.id);
         setRead(newRead);
         break;
@@ -58,23 +49,23 @@ function App() {
 
     book.shelf = newShelf;
     switch (newShelf) {
-      case 'currentlyReading':
+      case "currentlyReading":
         setReading([...reading, book]);
         break;
-      case 'wantToRead':
+      case "wantToRead":
         setWantToRead([...wantToRead, book]);
         break;
-      case 'read':
+      case "read":
         setRead([...read, book]);
         break;
     }
   };
   return (
-    <div className='app'>
+    <div className="app">
       <BrowserRouter>
         <Routes>
           <Route
-            path='/*'
+            path="/*"
             element={
               <Shelves
                 reading={reading}
@@ -85,7 +76,7 @@ function App() {
             }
           />
           <Route
-            path='/search'
+            path="/search"
             element={
               <Search
                 reading={reading}
