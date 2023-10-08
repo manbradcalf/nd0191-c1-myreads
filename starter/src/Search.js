@@ -1,10 +1,9 @@
-import { Link } from "react-router-dom";
-import { search } from "./BooksAPI";
-import { useRef, useState } from "react";
-import Book from "./Book";
-import PropTypes from "prop-types";
-import throttle from "lodash.throttle";
-import debounce from "lodash.debounce";
+import { Link } from 'react-router-dom';
+import { search } from './BooksAPI';
+import { useRef, useState } from 'react';
+import Book from './Book';
+import PropTypes from 'prop-types';
+import debounce from 'lodash.debounce';
 
 const Search = ({ reading, want, read, moveBookToShelf }) => {
   const [results, setResults] = useState([]);
@@ -45,7 +44,7 @@ const Search = ({ reading, want, read, moveBookToShelf }) => {
         </div>
       </div>
       <div className="search-books-results">
-        {results.length == 0 && (
+        {results.length === 0 && (
           <div className="empty-results-header">
             <h2>
               No results for the chosen query, please try a different search.
@@ -56,18 +55,18 @@ const Search = ({ reading, want, read, moveBookToShelf }) => {
           {results.map((book) => {
             // The books returned in search results don't have a shelf property.
             // Set it ourselves via the shelf props passed by app.js
-            book.shelf = "none";
+            book.shelf = 'none';
 
             if (reading.find((x) => book.id === x.id)) {
-              book.shelf = "currentlyReading";
+              book.shelf = 'currentlyReading';
             }
 
             if (read.find((x) => book.id === x.id)) {
-              book.shelf = "read";
+              book.shelf = 'read';
             }
 
             if (want.find((x) => book.id === x.id)) {
-              book.shelf = "wantToRead";
+              book.shelf = 'wantToRead';
             }
 
             return (

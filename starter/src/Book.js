@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
-import { get } from "./BooksAPI";
-import PropTypes from "prop-types";
+import { useState } from 'react';
+import PropTypes from 'prop-types';
 
 const Book = ({ book, moveBookToShelf }) => {
   const [shelf, setShelf] = useState(book.shelf);
@@ -12,24 +11,24 @@ const Book = ({ book, moveBookToShelf }) => {
 
   const shelves = [
     {
-      id: "1",
-      shelfName: "currentlyReading",
-      shelfDisplayName: "Currently Reading",
+      id: '1',
+      shelfName: 'currentlyReading',
+      shelfDisplayName: 'Currently Reading',
     },
     {
-      id: "2",
-      shelfName: "wantToRead",
-      shelfDisplayName: "Want To Read",
+      id: '2',
+      shelfName: 'wantToRead',
+      shelfDisplayName: 'Want To Read',
     },
     {
-      id: "3",
-      shelfName: "read",
-      shelfDisplayName: "Read",
+      id: '3',
+      shelfName: 'read',
+      shelfDisplayName: 'Read',
     },
     {
-      id: "4",
-      shelfName: "none",
-      shelfDisplayName: "None",
+      id: '4',
+      shelfName: 'none',
+      shelfDisplayName: 'None',
     },
   ];
   return (
@@ -40,7 +39,7 @@ const Book = ({ book, moveBookToShelf }) => {
           style={{
             width: 128,
             height: 193,
-            backgroundImage: `url(${book.imageLinks?.smallThumbnail ?? ""}})`,
+            backgroundImage: `url(${book.imageLinks?.smallThumbnail ?? ''}})`,
           }}
         ></div>
         <div className="book-shelf-changer">

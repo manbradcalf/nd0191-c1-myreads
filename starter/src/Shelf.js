@@ -1,5 +1,5 @@
-import Book from "./Book";
-import PropTypes from "prop-types";
+import Book from './Book';
+import PropTypes from 'prop-types';
 const Shelf = ({ books, shelfName, moveBookToShelf }) => {
   return (
     <div className="list-books-content">

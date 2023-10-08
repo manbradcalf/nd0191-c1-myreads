@@ -1,9 +1,7 @@
-import Book from "./Book";
-import { Link } from "react-router-dom";
-import { useState } from "react";
-import Search from "./Search";
-import Shelf from "./Shelf";
-import PropTypes from "prop-types";
+import { Link } from 'react-router-dom';
+import Search from './Search';
+import Shelf from './Shelf';
+import PropTypes from 'prop-types';
 
 const Shelves = ({ reading, want, read, moveBookToShelf }) => {
   return (
@@ -13,17 +11,17 @@ const Shelves = ({ reading, want, read, moveBookToShelf }) => {
       </div>
       <Shelf
         books={reading}
-        shelfName={"Currently Reading"}
+        shelfName={'Currently Reading'}
         moveBookToShelf={moveBookToShelf}
       />
       <Shelf
         books={want}
-        shelfName={"Want To Read"}
+        shelfName={'Want To Read'}
         moveBookToShelf={moveBookToShelf}
       />
       <Shelf
         books={read}
-        shelfName={"Read"}
+        shelfName={'Read'}
         moveBookToShelf={moveBookToShelf}
       />
       <div className="open-search">
